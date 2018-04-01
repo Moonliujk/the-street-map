@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Map Application</title>
+  <link rel="stylesheet" href="style/map basic.css" type="text/css" />
+  <link rel="stylesheet" href="style/map controller style.css" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Monoton|Montserrat:900|Pacifico" rel="stylesheet">
+</head>
+<body>
+    <!--loading interface setting-->
+    <div class="start-interface">
+
+        <div class="place-name">
+          <p><span class="first-letter">N</span>an</p>
+          <p><span class="first-letter">J</span>ing</p>
+          <p class="main-header">the best map</p>
+
+          <!--loading animation-->
+          <div id="loading-information">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+          </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="container">
+        <div id="map"></div>
+
+        <div class="searching-container">
+
+            <label for="searching-box">
+                <input type="text" id="places-search" name="searching-box" placeholder="Please enter a place"/>
+                <a href="#" id="go"></a>
+            </label>
+
+              <div class="weather-search-container">
+                  <a href="#" id="weather-search">天气查询</a>
+                  <!--to show the searching results-->
+                  <ul id="weather-list"></ul>
+              </div>
+
+        </div>
+
+        <div class="show-sidebar">
+          <a href="#"></a>
+        </div>
+
+        <div class="sidebar-container">
+            <header>
+              <div class="big-title">
+                <p class="big-header"><span class="red-text strong-text">N</span>an</p>
+                <p class="big-header"><span class="red-text strong-text">J</span>ing</p>
+              </div>
+              <p class="medium-header">Must <span class="red-text slim-text">TO</span> Visit</p>
+            </header>
+
+            <ul class="places-list">
+                <li><a href="#" data-bind="click: listClick">明孝陵</a></li>
+                <li><a href="#" data-bind="click: listClick">灵谷寺</a></li>
+                <li><a href="#" data-bind="click: listClick">南京理工大学</a></li>
+                <li><a href="#" data-bind="click: listClick">夫子庙</a></li>
+                <li><a href="#" data-bind="click: listClick">南京博物院</a></li>
+                <li><a href="#" data-bind="click: listClick">紫峰大厦</a></li>
+            </ul>
+
+            <footer>
+              <span class="map-icon">the best map</span>
+              <a href="#" class="hide-sidebar"></a>
+            </footer>
+
+        </div>
+
+    </div>
+
+    <!--加载地图API-->
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyBcVQuE1ybfGgPnnN0GRjYCjv6Ker-zjPw&v=3"></script>
+    <script type="text/javascript" src="js/map basic js.js" type="text/javascript" charset="utf-8"></script>
+    <!--加载infobox.js用于自定义google map API中infoWindow-->
+    <script type="text/javascript" src="js/infobox.js" type="text/javascript" charset="utf-8"></script>
+    <!--引入Knockout.js-->
+    <script type="text/javascript" src="js/knockout-3.4.2.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>
