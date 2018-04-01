@@ -1,6 +1,6 @@
 # The-best-map
 the Udacity's project ---the street map
-You can look up this project at [the best map](https://moonliujk.github.io/The-best-map/.)
+You can look up this project at [the best map](https://moonliujk.github.io/the-street-map/)
 # instruction
 - 使用Knockout.js构建列表及处理列表单击事件
 - 使用[和风天气](http://www.heweather.com/)API完成天气查询的功能
