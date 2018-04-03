@@ -18,7 +18,7 @@
           <p class="main-header">the best map</p>
 
           <!--loading animation-->
-          <div id="loading-information">
+          <div id="loading-information" class="loading">
               <span></span>
               <span></span>
               <span></span>
@@ -62,13 +62,10 @@
               <p class="medium-header">Must <span class="red-text slim-text">TO</span> Visit</p>
             </header>
 
-            <ul class="places-list">
-                <li><a href="#" data-bind="click: listClick">明孝陵</a></li>
-                <li><a href="#" data-bind="click: listClick">灵谷寺</a></li>
-                <li><a href="#" data-bind="click: listClick">南京理工大学</a></li>
-                <li><a href="#" data-bind="click: listClick">夫子庙</a></li>
-                <li><a href="#" data-bind="click: listClick">南京博物院</a></li>
-                <li><a href="#" data-bind="click: listClick">紫峰大厦</a></li>
+            <input id="refer-place-searching" type="text" name="" value="" data-bind="textInput: search" placeholder="请输入一个推荐地点">
+
+            <ul class="places-list" data-bind="foreach: searchPlace">
+                <li data-bind="text: $data, click: $parent.listClick"></li>
             </ul>
 
             <footer>
@@ -82,7 +79,8 @@
 
     <!--加载地图API-->
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyBcVQuE1ybfGgPnnN0GRjYCjv6Ker-zjPw&v=3"></script>
+    <script type="text/javascript" src="js/information.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyBcVQuE1ybfGgPnnN0GRjYCjv6Ker-zjPw&v=3" onerror="showErrorInfo()"></script>
     <script type="text/javascript" src="js/map basic js.js" type="text/javascript" charset="utf-8"></script>
     <!--加载infobox.js用于自定义google map API中infoWindow-->
     <script type="text/javascript" src="js/infobox.js" type="text/javascript" charset="utf-8"></script>

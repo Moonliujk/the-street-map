@@ -267,6 +267,44 @@
   text-align: center;
 }
 
+#refer-place-searching {
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  display: block;
+  margin: 1rem auto 0.5rem;
+  border: 2px solid transparent;
+  border-radius: 0.3rem;
+  padding: 3px 10px;
+  width: 10rem;
+  height: 1.5rem;
+  font-size: 1rem;
+  background-color: rgba(100, 100, 100, 0.9);
+  color: white;
+}
+
+#refer-place-searching:focus,
+#refer-place-searching:active {
+  border-color: white;
+  background-color: white;
+  outline: none;
+  color: black;
+}
+
+/*input::-webkit-input-placeholder,
+#refer-place-searching::-moz-placeholder,
+#refer-place-searching:-ms-input-placeholder {
+  color: #f1f1f1;
+}*/
+#refer-place-searching::-webkit-input-placeholder { /* WebKit browsers */
+color: #999;
+}
+
+#refer-place-searching:-ms-input-placeholder {
+  color: #999;;
+}
+
+
 .places-list {
   padding: 0;
   margin: 0;
@@ -283,14 +321,9 @@
   text-align: center;
   transition: all 0.1s;
   letter-spacing: 0.05rem;
-}
-
-.places-list li a{
-  display: inline-block;
-  text-decoration: none;
-  color: inherit;
   line-height: 2.5rem;
   font-size: 1rem;
+  cursor: pointer;
 }
 
 .places-list li:hover {

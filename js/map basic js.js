@@ -14,111 +14,13 @@ var iconDefault = {},
     iconChosen = {};
 // define lastInfoWindow
 var lastInfoWindow;
-// define the map styles
-//这里的地图样式借鉴了google map style中的一个地图样式
-var mapStyles = [
-    {
-      "featureType": "landscape",
-      "stylers": [
-        { "visibility": "simplified" },
-        { "color": "#2b3f57" },
-        { "weight": 0.1 }
-      ]
-    },{
-      "featureType": "administrative",
-      "stylers": [
-        { "visibility": "on" },
-        { "hue": "#ff0000" },
-        { "weight": 0.4 },
-        { "color": "#ffffff" }
-      ]
-    },{
-      "featureType": "road.highway",
-      "elementType": "labels.text",
-      "stylers": [
-        { "weight": 1.3 },
-        { "color": "#FFFFFF" }
-      ]
-    },{
-      "featureType": "road.highway",
-      "elementType": "geometry",
-      "stylers": [
-        { "color": "#f55f77" },
-        { "weight": 3 }
-      ]
-    },{
-      "featureType": "road.arterial",
-      "elementType": "geometry",
-      "stylers": [
-        { "color": "#f55f77" },
-        { "weight": 1.1 }
-      ]
-    },{
-      "featureType": "road.local",
-      "elementType": "geometry",
-      "stylers": [
-        { "color": "#f55f77" },
-        { "weight": 0.4 }
-      ]
-    },{
-    },{
-      "featureType": "road.highway",
-      "elementType": "labels",
-      "stylers": [
-        { "weight": 0.8 },
-        { "color": "#ffffff" },
-        { "visibility": "on" }
-      ]
-    },{
-      "featureType": "road.local",
-      "elementType": "labels",
-      "stylers": [
-        { "visibility": "off" }
-      ]
-    },{
-      "featureType": "road.arterial",
-      "elementType": "labels",
-      "stylers": [
-        { "color": "#ffffff" },
-        { "weight": 0.7 }
-      ]
-    },{
-      "featureType": "poi",
-      "elementType": "labels",
-      "stylers": [
-        { "visibility": "off" }
-      ]
-    },{
-      "featureType": "poi",
-      "stylers": [
-        { "color": "#6c5b7b" }
-      ]
-    },{
-      "featureType": "water",
-      "stylers": [
-        { "color": "#f3b191" }
-      ]
-    },{
-      "featureType": "transit.line",
-      "stylers": [
-        { "visibility": "on" }
-      ]
-    }
-  ];
-// define location's LatLng
-var defaultLocations = [
-      {title: '南京理工大学', location: {lat: 32.0352295, lng: 118.8531283}},
-      {title: '明孝陵', location: {lat: 32.0582209, lng: 118.8323852}},
-      {title: '灵谷寺', location: {lat: 32.0549885, lng: 118.8656373}},
-      {title: '南京博物院', location: {lat: 32.0399793, lng: 118.8224308}},
-      {title: '夫子庙', location: {lat: 32.020542, lng: 118.7867263}},
-      {title: '紫峰大厦', location: {lat: 32.062452, lng: 118.775866}}
-  ];
+
 //define KnockOut Object
 var viewModel = {};
 // define the infoWindow styles
 var infoStyle = 'background: rgba(51, 51, 51, 0.9); border: 4px solid white; border-radius: 8px; padding: 5px 0 8px 8px;'
 // define map
+
 function initialize() {
     bounds = new google.maps.LatLngBounds();  // 用于将标记在地图上展现最佳视野
     lastInfoWindow = new InfoBox();
@@ -164,23 +66,46 @@ function initialize() {
     searchWeather();
     sidebarbuttom();
 
-    viewModel = {
-      listClick: function(data, event) {
-        let itemValue = event.target.innerHTML;
-        hideMarkers(placesMarker);
-        console.log(event.target.innerHTML);
+    var ViewModel = function() {
+        var self = this;
 
-        for (let i=0; i<defaultLocations.length; i++) {
-            if (defaultLocations[i].title === itemValue) {
-                let place = [];
-                place.push(defaultLocations[i]);
-                setMarker(place, iconChosen);
-                break;
+        self.search = ko.observable('');
+
+        self.listClick = function(data, event) {
+          let itemValue = event.target.innerHTML;
+          //let place = [];
+          hideMarkers(placesMarker);
+
+          for (let i=0; i<defaultLocations.length; i++) {
+              if (defaultLocations[i].title === itemValue) {
+                  //place.push(defaultLocations[i]);
+                  setMarker([defaultLocations[i]], iconChosen);
+                  //google.maps.event.trigger(place[0].marker, "click");
+                  break;
+              }
+          }
+
+          //单个元素转化为数组元素
+
+          google.maps.event.trigger(placesMarker[0], "click");
+        };
+
+        self.searchPlace = ko.computed(function() {
+            if (!self.search()) {
+                return defaultLocations.map(function(element) {
+                    return element.title;
+                });
+            } else {
+                return defaultLocations.map(function(element) {
+                    if (element.title.indexOf(self.search()) != -1) {
+                        return element.title;
+                    }
+                });
             }
-        }
-      }
+        });
+
     };
-    ko.applyBindings(viewModel);
+    ko.applyBindings(new ViewModel());
 }
 // define the map basic application
 function defineMapApp() {
@@ -251,10 +176,6 @@ function showInforWindow(marker) {
 
       function searchDetails(outResults, outStatus) {
         if (outStatus == google.maps.places.PlacesServiceStatus.OK) {
-
-          /*let request = {
-            placeId: outResults[0].place_id
-          };*/
 
           let request;
           let latDiff,
@@ -465,6 +386,7 @@ function sidebarbuttom() {
 
   $('.hide-sidebar').click(function() {
       $(".sidebar-container").removeClass("sidebar-open");
+      //$("#refer-place-searching").val('');
       $(".show-sidebar").fadeIn();
       $(".searching-container").fadeIn();
   });
