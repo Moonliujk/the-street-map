@@ -16,9 +16,10 @@ var iconDefault = {},
 var lastInfoWindow;
 
 //define KnockOut Object
-var viewModel = {};
+var myViewModel;
 // define the infoWindow styles
-var infoStyle = 'background: rgba(51, 51, 51, 0.9); border: 4px solid white; border-radius: 8px; padding: 5px 0 8px 8px;'
+var infoStyle = 'background: rgba(51, 51, 51, 0.9); border: 4px solid white; border-radius: 8px; padding: 5px 0 8px 8px;';
+
 // define map
 
 function initialize() {
@@ -67,45 +68,46 @@ function initialize() {
     sidebarbuttom();
 
     var ViewModel = function() {
-        var self = this;
+            var self = this;
 
-        self.search = ko.observable('');
+            self.search = ko.observable('');
 
-        self.listClick = function(data, event) {
-          let itemValue = event.target.innerHTML;
-          //let place = [];
-          hideMarkers(placesMarker);
+            self.listClick = function(data, event) {
+              let itemValue = event.target.innerHTML;
+              //let place = [];
+              hideMarkers(placesMarker);
 
-          for (let i=0; i<defaultLocations.length; i++) {
-              if (defaultLocations[i].title === itemValue) {
-                  //place.push(defaultLocations[i]);
-                  setMarker([defaultLocations[i]], iconChosen);
-                  //google.maps.event.trigger(place[0].marker, "click");
-                  break;
+              for (let i=0; i<defaultLocations.length; i++) {
+                  if (defaultLocations[i].title === itemValue) {
+                      //place.push(defaultLocations[i]);
+                      setMarker([defaultLocations[i]], iconChosen);
+                      //google.maps.event.trigger(place[0].marker, "click");
+                      break;
+                  }
               }
-          }
 
-          //单个元素转化为数组元素
+              //单个元素转化为数组元素
 
-          google.maps.event.trigger(placesMarker[0], "click");
-        };
+              google.maps.event.trigger(placesMarker[0], "click");
+            };
 
-        self.searchPlace = ko.computed(function() {
-            if (!self.search()) {
-                return defaultLocations.map(function(element) {
-                    return element.title;
-                });
-            } else {
-                return defaultLocations.map(function(element) {
-                    if (element.title.indexOf(self.search()) != -1) {
+            self.searchPlace = ko.computed(function() {
+                if (!self.search()) {
+                    return defaultLocations.map(function(element) {
                         return element.title;
-                    }
-                });
-            }
-        });
+                    });
+                } else {
+                    return defaultLocations.map(function(element) {
+                        if (element.title.indexOf(self.search()) != -1) {
+                            return element.title;
+                        }
+                    });
+                }
+            })
 
-    };
-    ko.applyBindings(new ViewModel());
+        };
+        myViewModel = new ViewModel();
+        ko.applyBindings(myViewModel);
 }
 // define the map basic application
 function defineMapApp() {
@@ -381,6 +383,8 @@ function sidebarbuttom() {
   $('.show-sidebar').click(function() {
       $(".show-sidebar").fadeOut();
       $(".searching-container").fadeOut();
+      //保证每次都能显示默认界面
+      myViewModel.search('');
       $(".sidebar-container").addClass("sidebar-open");
   });
 
